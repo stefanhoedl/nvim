@@ -215,6 +215,17 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  -- custom by Stefan
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+        require("nvim-surround").setup({
+            -- Configuration here, or leave empty to use defaults
+        })
+    end
+  }
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -274,27 +285,32 @@ vim.o.termguicolors = true
 -- [[ Basic Keymaps ]]
 
 -- [[ Workman Remap Stefan ]]
-vim.keymap.set({'n', 'v'}, 'y', 'z')
-vim.keymap.set({'n', 'v'}, 'z', 'y')
-vim.keymap.set({'n', 'v'}, 'j', 't')
-vim.keymap.set({'n', 'v'}, 't', 'j')
-vim.keymap.set({'n', 'v'}, 'h', 'k')
-vim.keymap.set({'n', 'v'}, 'k', 'h')
 
-vim.keymap.set({'n', 'v'}, 'Y', 'Z')
-vim.keymap.set({'n', 'v'}, 'Z', 'Y')
-vim.keymap.set({'n', 'v'}, 'J', 'T')
-vim.keymap.set({'n', 'v'}, 'T', 'J')
-vim.keymap.set({'n', 'v'}, 'H', 'K')
-vim.keymap.set({'n', 'v'}, 'K', 'H')
+vim.keymap.set({'n', 'v'}, 'y', 'z', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'z', 'y', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'yy', 'zz', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'zz', 'yy', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'j', 't', { noremap = true })
+vim.keymap.set({'n', 'v'}, 't', 'j', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'h', 'k', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'k', 'h', { noremap = true })
+
+vim.keymap.set({'n', 'v'}, 'Y', 'Z', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'Z', 'Y', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'J', 'T', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'T', 'J', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'H', 'K', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'K', 'H', { noremap = true })
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+-- vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set('n', 'h', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set('n', 't', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
