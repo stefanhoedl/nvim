@@ -273,6 +273,21 @@ vim.o.termguicolors = true
 
 -- [[ Basic Keymaps ]]
 
+-- [[ Workman Remap Stefan ]]
+vim.keymap.set({'n', 'v'}, 'y', 'z')
+vim.keymap.set({'n', 'v'}, 'z', 'y')
+vim.keymap.set({'n', 'v'}, 'j', 't')
+vim.keymap.set({'n', 'v'}, 't', 'j')
+vim.keymap.set({'n', 'v'}, 'h', 'k')
+vim.keymap.set({'n', 'v'}, 'k', 'h')
+
+vim.keymap.set({'n', 'v'}, 'Y', 'Z')
+vim.keymap.set({'n', 'v'}, 'Z', 'Y')
+vim.keymap.set({'n', 'v'}, 'J', 'T')
+vim.keymap.set({'n', 'v'}, 'T', 'J')
+vim.keymap.set({'n', 'v'}, 'H', 'K')
+vim.keymap.set({'n', 'v'}, 'K', 'H')
+
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
