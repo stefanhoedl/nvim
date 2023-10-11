@@ -282,6 +282,8 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+vim.opt.relativenumber = true
+
 -- [[ Basic Keymaps ]]
 
 -- [[ Workman Remap Stefan ]]
@@ -302,13 +304,35 @@ vim.keymap.set({'n', 'v'}, 'T', 'J', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'H', 'K', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'K', 'H', { noremap = true })
 
+-- [[ window nav remap ]]
+-- https://neovim.io/doc/user/quickref.html#Q_wi
+vim.keymap.set({'n'}, '<Leader>h', '<C-w>k')
+vim.keymap.set({'n'}, '<Leader>t', '<C-w>j')
+vim.keymap.set({'n'}, '<Leader>k', '<C-w>h')
+vim.keymap.set({'n'}, '<Leader>l', '<C-w>l')
+vim.keymap.set({'n'}, '<Leader>b', '<C-w>b')
+vim.keymap.set({'n'}, '<Leader>j', '<C-w>t')
+
+vim.keymap.set({'n'}, '<C-w>h', '<C-w>k')
+vim.keymap.set({'n'}, '<C-w>t', '<C-w>j')
+vim.keymap.set({'n'}, '<C-w>k', '<C-w>h')
+vim.keymap.set({'n'}, '<C-w>l', '<C-w>l')
+vim.keymap.set({'n'}, '<C-w>b', '<C-w>b')
+vim.keymap.set({'n'}, '<C-w>j', '<C-w>t')
+
+--vim.keymap.set({'n'}, '<C-w>k', '<C-w>h')
+--vim.keymap.set({'n'}, '<C-w>j', '<C-w>t')
+--vim.keymap.set({'n'}, '<C-w>h', '<C-w>k')
+--vim.keymap.set({'n'}, '<C-w>l', '<C-w>l')
+--vim.keymap.set({'n'}, '<C-w>b', '<C-w>b')
+--vim.keymap.set({'n'}, '<C-w>t', '<C-w>j')
+
+
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Remap for dealing with word wrap
--- vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
--- vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set('n', 'h', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 't', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
