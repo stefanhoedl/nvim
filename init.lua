@@ -283,6 +283,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 
 -- [[ Basic Keymaps ]]
+vim.go.background = "dark"
 
 -- [[ Workman Remap Stefan ]]
 
@@ -302,6 +303,11 @@ vim.keymap.set({'n', 'v'}, 'T', 'J', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'H', 'K', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'K', 'H', { noremap = true })
 
+
+-- todo relativeLineNumbers
+-- map tab switches:
+--vim.keymap.set({'n'}, "<C-w>h", 
+--vim.keymap.set({'n'}, "<leader>w", 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
