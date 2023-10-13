@@ -43,6 +43,10 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- disable netrw at the very start of your init.lua (nvim-tree)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -221,11 +225,69 @@ require('lazy').setup({
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
     config = function()
-        require("nvim-surround").setup({
-            -- Configuration here, or leave empty to use defaults
-        })
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
     end
-  }
+  },
+
+  {"nvim-tree/nvim-web-devicons",
+    version = "*",
+    lazy = false,
+    config = function()
+      require("nvim-web-devicons").setup {
+        override = {
+          zsh = {
+            icon = "",
+            color = "#428850",
+            cterm_color = "65",
+            name = "Zsh"
+          }
+        };
+        -- globally enable different highlight colors per icon (default to true)
+        -- if set to false all icons will have the default icon's color
+        color_icons = true;
+        -- globally enable default icons (default to false)
+        -- will get overriden by `get_icons` option
+        default = true;
+        -- globally enable "strict" selection of icons - icon will be looked up in
+        -- different tables, first by filename, and if not found by extension; this
+        -- prevents cases when file doesn't have any extension but still gets some icon
+        -- because its name happened to match some extension (default to false)
+        strict = true;
+        -- same as `override` but specifically for overrides by filename
+        -- takes effect when `strict` is true
+        override_by_filename = {
+          [".gitignore"] = {
+            icon = "",
+            color = "#f1502f",
+            name = "Gitignore"
+          }
+        };
+        -- same as `override` but specifically for overrides by extension
+        -- takes effect when `strict` is true
+        override_by_extension = {
+          ["log"] = {
+            icon = "",
+            color = "#81e043",
+            name = "Log"
+          }
+        };
+      }
+    end,
+  },
+
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup {}
+    end,
+  },
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -292,7 +354,7 @@ vim.keymap.set({'n', 'v'}, 'y', 'z', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'z', 'y', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'yy', 'zz', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'zz', 'yy', { noremap = true })
-vim.keymap.set({'n', 'v'}, 'j', 't', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'j', 't', { noremap = true, desc = '[J]ump to'})
 vim.keymap.set({'n', 'v'}, 't', 'j', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'h', 'k', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'k', 'h', { noremap = true })
@@ -311,7 +373,7 @@ vim.keymap.set({'n'}, '<Leader>t', '<C-w>j')
 vim.keymap.set({'n'}, '<Leader>k', '<C-w>h')
 vim.keymap.set({'n'}, '<Leader>l', '<C-w>l')
 vim.keymap.set({'n'}, '<Leader>b', '<C-w>b')
-vim.keymap.set({'n'}, '<Leader>j', '<C-w>t')
+vim.keymap.set({'n'}, '<Leader>j', '<C-w>t', {desc = '[J]ump to'})
 
 vim.keymap.set({'n'}, '<C-w>h', '<C-w>k')
 vim.keymap.set({'n'}, '<C-w>t', '<C-w>j')
@@ -319,6 +381,16 @@ vim.keymap.set({'n'}, '<C-w>k', '<C-w>h')
 vim.keymap.set({'n'}, '<C-w>l', '<C-w>l')
 vim.keymap.set({'n'}, '<C-w>b', '<C-w>b')
 vim.keymap.set({'n'}, '<C-w>j', '<C-w>t')
+
+
+-- [[Nvim-Tree]]
+
+vim.keymap.set({'n'}, '<C-n>', ':NvimTreeToggle<Enter>')
+vim.keymap.set({'n'}, '<Leader>e', ':NvimTreeFocus<Enter>')
+vim.keymap.set({'n'}, '<C-n>', ':NvimTreeToggle<Enter>')
+
+--vim.keymap.set({'n'}, 't', 'j') --'[J]ump to'
+--vim.keymap.set({'n'}, 'j', 't') --'[J]ump to'
 
 --vim.keymap.set({'n'}, '<C-w>k', '<C-w>h')
 --vim.keymap.set({'n'}, '<C-w>j', '<C-w>t')
@@ -507,7 +579,8 @@ require('which-key').register {
   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
   ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
+  ['<leader>j'] = { name = 'More git', _ = 'which_key_ignore' },
+  --['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
@@ -616,4 +689,4 @@ cmp.setup {
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2
