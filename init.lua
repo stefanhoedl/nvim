@@ -1,5 +1,5 @@
 --[[
-
+ 
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -96,6 +96,19 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
+
+--https://github.com/lspcontainers/lspcontainers.nvim
+  {
+    'lspcontainers/lspcontainers.nvim'
+  },
+
+--lspconfig.gopls.setup {--on_attach = on_attach,
+--capabilities = capabilities,
+--cmd = lspcontainers.command('gopls', {
+    --container_runtime = "podman",
+    --}),
+--root_dir = require'lspconfig/util'.root_pattern(".git", vim.fn.getcwd()),
+  --}
 
   {
     -- Autocompletion
@@ -286,8 +299,59 @@ require('lazy').setup({
     },
     config = function()
       require("nvim-tree").setup {}
+      vim.keymap.set({'n'}, '<C-e>', ':NvimTreeToggle<Enter>')
+      vim.keymap.set({'n'}, '<Leader>e', ':NvimTreeFocus<Enter>')
+
+      vim.keymap.set({'n'}, '<leader>ee', '<cmd>NvimTreeToggle<CR>')
+      vim.keymap.set({'n'}, '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>')
+      vim.keymap.set({'n'}, '<leader>ec', '<cmd>NvimTreeCollapse<CR>')
+      vim.keymap.set({'n'}, '<leader>er', '<cmd>NvimTreeRefresh<CR>')
     end,
   },
+
+  -- {
+  --   "aserowy/tmux.nvim",
+  --   config = function()
+  --     require("tmux").setup() {}
+  --       navigation = {
+  --         enable_default_keybindings = true,
+  --       }
+  --
+  --   end
+  -- },
+
+  {
+    "numToStr/Navigator.nvim",
+    config = function()
+      local ok, tmux = pcall(function()
+          return require('Navigator.mux.tmux'):new()
+      end)
+      require('Navigator').setup {
+        mux = ok and tmux or 'auto',
+        auto_save = 'current',
+        disable_on_zoom = false
+      }
+
+      --vim.keymap.set({'n', 't'}, '<leader>mm', '<cmd>Tmux:new()<CR>')
+      vim.keymap.set({'n', 't'}, '<leader>k', '<cmd>NavigatorLeft<CR>')
+      vim.keymap.set({'n', 't'}, '<leader>l', '<cmd>NavigatorRight<CR>')
+      vim.keymap.set({'n', 't'}, '<leader>h', '<cmd>NavigatorUp<CR>')
+      vim.keymap.set({'n', 't'}, '<leader>t', '<cmd>NavigatorDown<CR>')
+      vim.keymap.set({'n', 't'}, '<leader>p', '<cmd>NavigatorPrevious<CR>')
+      -- vim.keymap.set({'n', 't'}, '<A-h>', require('Navigator').left)
+    end,
+  },
+  -- {
+  --"christoomey/vim-tmux-navigator", 
+  --"alexghergh/nvim-tmux-navigation"
+  -- },
+
+-- {
+--   'fannheyward/coc-pyright',
+--   config = function()
+--     require('coc-pyright').setup() {}
+--   end,
+-- },
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -367,10 +431,20 @@ vim.keymap.set({'n', 'v'}, 'T', 'J', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'H', 'K', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'K', 'H', { noremap = true })
 
--- todo relativeLineNumbers
 -- map tab switches:
 --vim.keymap.set({'n'}, "<C-w>h", 
 --vim.keymap.set({'n'}, "<leader>w", 
+vim.keymap.set({'n'}, '<leader>1', '1gt')
+vim.keymap.set({'n'}, '<leader>2', '2gt')
+vim.keymap.set({'n'}, '<leader>3', '3gt')
+vim.keymap.set({'n'}, '<leader>4', '4gt')
+vim.keymap.set({'n'}, '<leader>5', '5gt')
+vim.keymap.set({'n'}, '<leader>6', '6gt')
+vim.keymap.set({'n'}, '<leader>7', '7gt')
+vim.keymap.set({'n'}, '<leader>8', '8gt')
+vim.keymap.set({'n'}, '<leader>9', '9gt')
+vim.keymap.set({'n'}, '<leader>0', ':tablast<CR>')
+--remap <leader>0 :tablast<cr>
 
 -- [[ window nav remap ]]
 -- https://neovim.io/doc/user/quickref.html#Q_wi
@@ -388,13 +462,7 @@ vim.keymap.set({'n'}, '<C-w>l', '<C-w>l')
 vim.keymap.set({'n'}, '<C-w>b', '<C-w>b')
 vim.keymap.set({'n'}, '<C-w>j', '<C-w>t')
 
-
--- [[Nvim-Tree]]
-
-vim.keymap.set({'n'}, '<C-n>', ':NvimTreeToggle<Enter>')
-vim.keymap.set({'n'}, '<Leader>e', ':NvimTreeFocus<Enter>')
-vim.keymap.set({'n'}, '<C-n>', ':NvimTreeToggle<Enter>')
-
+-- [[Stefan WIP]]
 --vim.keymap.set({'n'}, 't', 'j') --'[J]ump to'
 --vim.keymap.set({'n'}, 'j', 't') --'[J]ump to'
 
@@ -517,7 +585,7 @@ vim.defer_fn(function()
         },
       },
       swap = {
-        enable = true,
+        enable = false,
         swap_next = {
           ['<leader>a'] = '@parameter.inner',
         },
@@ -609,6 +677,8 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
+	pyre = {},
+  -- pyproject-flake = {},
   -- rust_analyzer = {},
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
