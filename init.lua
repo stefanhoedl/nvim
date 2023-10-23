@@ -1,51 +1,18 @@
 --[[
- 
-=====================================================================
-==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
-
-Kickstart.nvim is *not* a distribution.
-
-Kickstart.nvim is a template for your own configuration.
-  The goal is that you can read every line of code, top-to-bottom, understand
-  what your configuration is doing, and modify it to suit your needs.
-
-  Once you've done that, you should start exploring, configuring and tinkering to
-  explore Neovim!
-
-  If you don't know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
   - https://learnxinyminutes.com/docs/lua/
-
-
-  And then you can explore or search through `:help lua-guide`
   - https://neovim.io/doc/user/lua-guide.html
+]]--
 
-
-Kickstart Guide:
-
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
-
-In addition, I have some `NOTE:` items throughout the file.
-These are for you, the reader to help understand what is happening. Feel free to delete
-them once you know what you're doing, but they should serve as a guide for when you
-are first encountering a few different constructs in your nvim config.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you're done too. It's your config now :)
---]]
 -- Set <space> as the leader key
 -- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- disable netrw at the very start of your init.lua (nvim-tree)
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
+--vim.lsp.set_log_level("debug")
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -233,16 +200,16 @@ require('lazy').setup({
   },
 
   -- custom by Stefan
-  {
-    "kylechui/nvim-surround",
-    version = "*", -- Use for stability; omit to use `main` branch for the latest features
-    event = "VeryLazy",
-    config = function()
-      require("nvim-surround").setup({
-        -- Configuration here, or leave empty to use defaults
-      })
-    end
-  },
+  -- {
+  --   "kylechui/nvim-surround",
+  --   version = "*", -- Use for stability; omit to use `main` branch for the latest features
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require("nvim-surround").setup({
+  --       -- Configuration here, or leave empty to use defaults
+  --     })
+  --   end
+  -- },
 
   {"nvim-tree/nvim-web-devicons",
     version = "*",
@@ -309,6 +276,11 @@ require('lazy').setup({
     end,
   },
 
+  {'ggandor/leap.nvim',
+    config = function()
+      require('leap').add_default_mappings()
+    end
+  },
   -- {
   --   "aserowy/tmux.nvim",
   --   config = function()
@@ -481,6 +453,8 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'h', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 't', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -677,7 +651,30 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
-	pyre = {},
+	-- pyre = {},
+--
+--   pylsp = {
+--     cmd = {"pylsp"},
+--     -- cmd = {require'lspcontainers'.command('pylsp')},
+--     settings = {
+--         pylsp = {
+--             configurationSources = {"flake8"},
+--             plugins = {
+--                 flake8 = {
+--                     enabled = true,
+--                     maxLineLength = 120,
+--                 },
+--             },
+--         },
+--     },
+--     root_dir = require'lspconfig'.util.root_pattern(".git", "setup.py",  "setup.cfg", "pyproject.toml", "requirements.txt"),
+--     on_attach = on_attach,
+--     -- filetypes = {"python"},
+--     -- Add your Docker container's IP and the LSP server port here:
+--     cmd_cwd = "172.17.0.2:2087",
+-- },
+
+  pylsp = {},
   -- pyproject-flake = {},
   -- rust_analyzer = {},
   -- tsserver = {},
