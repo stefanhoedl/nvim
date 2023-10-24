@@ -1,7 +1,11 @@
 --[[
+  TODO
+  - assign j key to jump, not up 
+    (delete, ...) 
   - https://learnxinyminutes.com/docs/lua/
   - https://neovim.io/doc/user/lua-guide.html
 ]]--
+
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -356,6 +360,8 @@ vim.o.mouse = 'a'
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
+
+
 
 -- Enable break indent
 vim.o.breakindent = true
