@@ -171,6 +171,7 @@ require('lazy').setup({
   },
 
   -- "gc" to comment visual regions/lines
+  -- { 'numToStr/Comment.nvim', opts = { extra = {line = '<C-/>'} } },
   { 'numToStr/Comment.nvim', opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
@@ -284,6 +285,20 @@ require('lazy').setup({
     config = function()
       require('leap').add_default_mappings()
     end
+  },
+
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+  },
+
+  {
+    'folke/lsp-colors.nvim'
   },
   -- {
   --   "aserowy/tmux.nvim",
@@ -456,10 +471,49 @@ vim.keymap.set({'n'}, '<C-w>j', '<C-w>t')
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
+-- attempt to make comment.nvim work with CTRL+/
+-- vim.keymap.set({ 'n', 'v' }, '<C-/>', '<leader>gcc', { silent = true })
+-- vim.keymap.set({ 'n', 'v' }, '<leader>/', '<leader>gcc', { silent = true })
+
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'h', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 't', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+-- Trouble keymaps
+vim.keymap.set("n", "<leader>tt", function()
+    require("trouble").toggle() end, { desc = '[T]rouble toggle' })
+vim.keymap.set("n", "<leader>tw", function()
+    require("trouble").toggle("workspace_diagnostics") end, { desc = '[T]rouble [W]orkspace' })
+vim.keymap.set("n", "<leader>td", function()
+    require("trouble").toggle("document_diagnostics") end, { desc = '[T]rouble [D]ocument' })
+vim.keymap.set("n", "<leader>tq", function()
+    require("trouble").toggle("quickfix") end, { desc = '[T]rouble [Q]uickfix' })
+vim.keymap.set("n", "<leader>tl", function()
+    require("trouble").toggle("loclist") end, { desc = '[T]rouble [L]oclist' })
+vim.keymap.set("n", "<leader>tr", function()
+    require("trouble").toggle("lsp_references") end, { desc = '[T]rouble references' })
+
+
+-- Command to toggle inline diagnostics
+-- vim.diagnostic.disable()
+-- vim.diagnostic.config({virtual_text = false})
+vim.api.nvim_create_user_command(
+  'ToggleDiag',
+  function()
+    -- local current_value = vim.diagnostic.config().virtual_text
+    local current_value = vim.diagnostic.is_disabled()
+    if current_value then
+      vim.diagnostic.config({virtual_text = true})
+      vim.diagnostic.enable()
+    else
+      vim.diagnostic.config({virtual_text = false})
+      vim.diagnostic.disable()
+    end
+  end,
+  {}
+)
+vim.keymap.set('n', '<leader>tv', ':ToggleDiag<Enter>', { desc = '[T]oggle [V]irtualText' })
+--vim.keymap.set('n', '<leader>tv', function() vim.api.ToggleDiag end, { desc = '[T]oggle [V]irtualText' })
 
 
 -- [[ Highlight on yank ]]
@@ -681,6 +735,7 @@ local servers = {
 -- },
 
   pylsp = {},
+
   -- pyproject-flake = {},
   -- rust_analyzer = {},
   -- tsserver = {},
@@ -718,6 +773,8 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+
+
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`

@@ -44,14 +44,22 @@ echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sou
 sudo apt update && sudo apt install signal-desktop eduvpn-client code notion-app-enhanced spotify-client
 
 # zsh 
-
 curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 
 # whatsapp
 sudo apt install gconf2 libgconf-2-4 gconf2-common gconf2-service
-# manual installs:
-https://extensions.gnome.org/extension/307/dash-to-dock/
+gnome-extensions install dash-to-dock@micxgx.gmail.com 
+gnome-extensions install 
+gnome-extensions enable dash-to-dock@micxgx.gmail.com
+gnome-extensions enable wintile@nowsci.com
+#https://extensions.gnome.org/extension/1723/wintile-windows-10-window-tiling-for-gnome/
+#https://extensions.gnome.org/extension/307/dash-to-dock/
 
+# gnome-control-center
+# gsettings get/set
+# name 'ZTerminal'
+# command 'gnome-terminal'
+# binding '<Super>T'
 
 # DOCKER
 sudo install -m 0755 -d /etc/apt/keyrings
