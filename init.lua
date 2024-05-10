@@ -16,8 +16,6 @@ vim.g.maplocalleader = ' '
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
---vim.lsp.set_log_level("debug")
-
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -171,8 +169,30 @@ require('lazy').setup({
   },
 
   -- "gc" to comment visual regions/lines
-  -- { 'numToStr/Comment.nvim', opts = { extra = {line = '<C-/>'} } },
-  { 'numToStr/Comment.nvim', opts = {} },
+  -- { 'numToStr/Comment.nvim', opts = {
+  --   toggler = {
+  --       line = '<C-_>',
+  --       -- block = '<C-\\>'
+  --     },
+  --   }
+  -- },
+
+  { 'numToStr/Comment.nvim', opts = {
+            toggler = {
+                line = '<C-_>',    -- This works for normal mode, now let's extend it
+                -- block = '<C-\\>',  -- This should be correctly escaped
+            },
+            opleader = {
+                line = '<C-_>',    -- Operator pending mode for line comment
+                -- block = '<C-\\>',  -- Operator pending mode for block comment
+            },
+            mappings = {
+                basic = true,      -- Enable basic mappings (gcc/gbc)
+                extra = true,      -- Enable extra mappings (gcO/gco/gcA)
+                extended = false,  -- Do not map g> and g< (not used often)
+            },
+        },
+  },
 
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -332,6 +352,54 @@ require('lazy').setup({
       -- vim.keymap.set({'n', 't'}, '<A-h>', require('Navigator').left)
     end,
   },
+
+  -- chatCPT: null-ls, autoformat on write, write on focusChange
+  {
+      'jose-elias-alvarez/null-ls.nvim', -- For null-ls
+      requires = { 'nvim-lua/plenary.nvim' },
+      config = function()
+          require("null-ls").setup({
+              sources = {
+                  require("null-ls").builtins.formatting.black.with({ extra_args = { "--fast" } }),
+                  require("null-ls").builtins.formatting.isort,
+              },
+              on_attach = function(client, bufnr)
+                  if client.supports_method("textDocument/formatting") then
+                      vim.api.nvim_create_autocmd("BufWritePre", {
+                          group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true }),
+                          buffer = bufnr,
+                          callback = function()
+                              vim.lsp.buf.format({ timeout_ms = 2000 })
+                          end,
+                      })
+                  end
+              end,
+          })
+      end,
+  },
+  -- chatCPT: lspcontainer
+  -- {
+  --       'lspcontainers/lspcontainers.nvim', -- For LSP in Docker
+  --       config = function()
+  --           require('lspconfig').pylsp.setup({
+  --               cmd = require('lspcontainers').command('pylsp'),
+  --               on_attach = on_attach,
+  --               settings = {
+  --                   pylsp = {
+  --                       plugins = {
+  --                           pyls_black = { enabled = true },
+  --                           pyls_isort = { enabled = true }
+  --                       }
+  --                   }
+  --               },
+  --               root_dir = require('lspconfig/util').root_pattern(".git", vim.fn.getcwd()),
+  --           })
+  --       end,
+  --   },
+
+
+
+
   -- {
   --"christoomey/vim-tmux-navigator", 
   --"alexghergh/nvim-tmux-navigation"
@@ -358,6 +426,17 @@ require('lazy').setup({
   -- { import = 'custom.plugins' },
 }, {})
 
+
+-- [Stefan WriteOnFocusChange]
+vim.api.nvim_create_autocmd("FocusLost", {
+    pattern = '*',
+    command = 'wa'
+})
+
+-- vim.keymap.set('n', '<^_>', '<leader>gcc', { desc = 'Toggle comment for the current line' })
+-- vim.keymap.set('x', '<^_>', '<leader>gc', { desc = 'Toggle comment for the selected lines' })
+-- vim.keymap.set('o', '<^_>', '<leader>gc', { desc = 'Toggle comment for motion' })
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -375,7 +454,6 @@ vim.o.mouse = 'a'
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
-
 
 
 -- Enable break indent
@@ -693,6 +771,53 @@ require('which-key').register {
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
 }
+
+
+-- chatGPT contrib: formatOnWrite, fix formatting,  --
+-- local null_ls = require("null-ls")
+-- local lspconfig = require('lspconfig')
+--
+-- -- Auto-format using null-ls
+-- null_ls.setup({
+--     sources = {
+--         null_ls.builtins.formatting.black.with({ extra_args = { "--fast" } }),
+--         null_ls.builtins.formatting.isort,
+--     },
+--     on_attach = function(client, bufnr)
+--         if client.supports_method("textDocument/formatting") then
+--             vim.api.nvim_create_autocmd("BufWritePre", {
+--                 group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true }),
+--                 buffer = bufnr,
+--                 callback = function()
+--                     vim.lsp.buf.format({ timeout_ms = 2000 })
+--                 end,
+--             })
+--         end
+--     end,
+-- })
+--
+-- -- Setup LSP with lspcontainers
+-- lspconfig.pylsp.setup({
+--     cmd = require('lspcontainers').command('pylsp'),
+--     on_attach = on_attach,
+--     settings = {
+--         pylsp = {
+--             plugins = {
+--                 pyls_black = { enabled = true },
+--                 pyls_isort = { enabled = true }
+--             }
+--         }
+--     },
+--     root_dir = require('lspconfig/util').root_pattern(".git", vim.fn.getcwd()),
+-- })
+--
+-- -- Save all buffers on focus lost
+-- vim.api.nvim_create_autocmd("FocusLost", {
+--     pattern = '*',
+--     command = 'wa'
+-- })
+--
+
 
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
