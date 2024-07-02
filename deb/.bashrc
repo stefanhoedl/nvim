@@ -1,9 +1,14 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
-alias nvv="$HOME/.config/nvim/nvim.appimage ~/.config/nvim/init.lua"
-alias nvb="$HOME/.config/nvim/nvim.appimage ~/.bashrc"
-alias nvz="$HOME/.config/nvim/nvim.appimage ~/.zshrc"
+alias nvv="nvim ~/.config/nvim/init.lua"
+alias nvb="nvim ~/.bashrc"
+# alias nvz="$HOME/.config/nvim/nvim.appimage ~/.zshrc"
+alias ds="docker start mmb"
+alias dd="docker stop mmb"
+# alias dex="docker exec -it mmb bash"
+alias dex="docker exec -it mmb bash -c 'cd /workspace; exec bash'"
+cd ~/phd/
 
 nv() {
   if [ -z "$1" ]; then

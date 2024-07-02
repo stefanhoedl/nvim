@@ -9,6 +9,7 @@
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
+vim.o.guifont = "Source Code Pro Nerd Font:h14"
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
