@@ -25,8 +25,9 @@ cap() {
 }
 
 alias cex="conda deactivate"
+alias dql="dvc queue log "$1""
 alias dqs="dvc queue status"
-# alias dqs="dvc queue status"
+
 cd ~/phd/
 
 # alias bootwin="sudo grub-reboot $(grep -E '^menuentry' /boot/grub/grub.cfg | grep -n Windows | cut -d':' -f 1) && reboot"
