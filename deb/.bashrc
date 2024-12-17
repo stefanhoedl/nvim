@@ -1,14 +1,35 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
-alias nvv="nvim ~/.config/nvim/init.lua"
-alias nvb="nvim ~/.bashrc"
-# alias nvz="$HOME/.config/nvim/nvim.appimage ~/.zshrc"
+
+alias nvv="$HOME/.config/nvim/nvim.appimage ~/.config/nvim/init.lua"
+alias nvb="$HOME/.config/nvim/nvim.appimage ~/.bashrc"
+alias nvz="$HOME/.config/nvim/nvim.appimage ~/.zshrc"
 alias ds="docker start mmb"
 alias dd="docker stop mmb"
-# alias dex="docker exec -it mmb bash"
+# alias dex="docker exec -it mmb bash && cd /workspace"
 alias dex="docker exec -it mmb bash -c 'cd /workspace; exec bash'"
+# alias cad="conda activate dl && cd ~/phd/SurfPro && export PYTHONPATH=/home/user/stefan/phd/SurfPro:$PYTHONPATH"
+
+
+cad() {
+    conda activate dl
+    cd ~/phd/SurfPro
+    export PYTHONPATH="/home/user/stefan/phd/SurfPro:$PYTHONPATH"
+}
+# alias cap="conda activate pep && cd ~/phd/peptides && export PYTHONPATH=/home/user/stefan/phd/peptedes:$PYTHONPATH"
+cap() {
+    conda activate pep
+    cd ~/phd/pepLM
+    export PYTHONPATH="/home/user/stefan/phd/pepLM:$PYTHONPATH"
+}
+
+alias cex="conda deactivate"
+alias dqs="dvc queue status"
+# alias dqs="dvc queue status"
 cd ~/phd/
+
+# alias bootwin="sudo grub-reboot $(grep -E '^menuentry' /boot/grub/grub.cfg | grep -n Windows | cut -d':' -f 1) && reboot"
 
 nv() {
   if [ -z "$1" ]; then
@@ -17,6 +38,7 @@ nv() {
     nvim "$1"
   fi
 }
+
 
 # If not running interactively, don't do anything
 case $- in
@@ -131,11 +153,9 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-alias ll='ls -laF'
-alias update='sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y'
-export PATH="$PATH:/home/stefan/miniconda3/bin/conda"
+alias ll='ls -lh'
+alias la='ls -lhA'
 alias py='python3'
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/stefan/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
@@ -150,5 +170,4 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-
+# alias winboot="sudo grub-reboot $(grep -E '^menuentry' /boot/grub/grub.cfg | grep -n Windows f | cut -d':' -f 1) && reboot"

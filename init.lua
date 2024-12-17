@@ -361,7 +361,7 @@ require('lazy').setup({
       config = function()
           require("null-ls").setup({
               sources = {
-                  require("null-ls").builtins.formatting.black.with({ extra_args = { "--fast" } }),
+                  require("null-ls").builtins.formatting.black.with({ extra_args = { "--fast", "--line-length", "79"} }),
                   require("null-ls").builtins.formatting.isort,
               },
               on_attach = function(client, bufnr)
