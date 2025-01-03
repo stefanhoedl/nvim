@@ -226,16 +226,16 @@ require('lazy').setup({
   },
 
   -- custom by Stefan
-  -- {
-  --   "kylechui/nvim-surround",
-  --   version = "*", -- Use for stability; omit to use `main` branch for the latest features
-  --   event = "VeryLazy",
-  --   config = function()
-  --     require("nvim-surround").setup({
-  --       -- Configuration here, or leave empty to use defaults
-  --     })
-  --   end
-  -- },
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  },
 
   {"nvim-tree/nvim-web-devicons",
     version = "*",
@@ -455,7 +455,6 @@ vim.o.mouse = 'a'
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
-
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -903,10 +902,13 @@ mason_lspconfig.setup_handlers {
 
 
 -- [[ Configure nvim-cmp ]]
+-- see :LuaSnipList
 -- See `:help cmp`
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
-require('luasnip.loaders.from_vscode').lazy_load()
+require('luasnip.loaders.from_vscode').lazy_load({
+  exclude = {},
+})
 luasnip.config.setup {}
 
 cmp.setup {
@@ -949,6 +951,74 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+--------------------------------------------------------------------------------
+-- Define custom LuaSnip snippets for Python
+--------------------------------------------------------------------------------
+local s  = luasnip.snippet
+local t  = luasnip.text_node
+local i  = luasnip.insert_node
+local rep   = require("luasnip.extras").rep  
+
+luasnip.add_snippets("python", {
+  -- Aliases: imp <shortcut>
+  s("impnp",  { t({"import numpy as np", ""}) }),
+  s("imppd",  { t({"import pandas as pd", ""}) }),
+  s("impplt", { t({"import matplotlib.pyplot as plt", ""}) }),
+  s("impwb",  { t({"import wandb", ""}) }),
+  s("impgeom", { t({"import torch_geometric", ""}) }),
+  s("impto", {
+    t({"import torch", "import torch.nn.functional as F",
+      "import torch.nn as nn", "import pytorch_lightning as pl", ""})
+  }),
+  s("impcfg", {
+    t({"from omegaconf import OmegaConf", "import dvc", ""})
+  }),
+
+  s("mkmain", {
+    t("def "), i(1, "FUNC"), t("():"),
+    t({"", "    pass", "", "if __name__ == \"__main__\":"}),
+    t({"", "    "}), rep(1), t("()"),
+  }),
+
+  -- mkclass: changing "SUPER" at <Tab> spot will update the second instance.
+  -- s("mkclass", {
+  --   t("class "), i(1, "NAME"), t("("), i(2, "SUPER"), t({"):", "    def __init__(self):", "        if "}),
+  --   rep(2), t({": super().__init__()"}),
+  -- }),
+  --
+  -- V2
+  ---- mkclass with optional super:
+  -- s("mkclass", {
+  --   t("class "),
+  --   i(1, "MyClass"),  -- Class name
+  --   -- Dynamic node for the SUPER placeholder (user can type or leave empty)
+  --   d(2, function()
+  --     return ls.snippet(nil, { i(1, "") })
+  --   end),
+  --   -- Conditionally add parentheses if user typed a superclass
+  --   f(function(args)
+  --     local super = args[1][1] or ""
+  --     if super == "" then
+  --       return ""
+  --     else
+  --       return "(" .. super .. ")"
+  --     end
+  --   end, {2, 1}),
+  --   t({":", "    def __init__(self):"}),
+  --   -- Conditionally call super().__init__() only if SUPER not empty
+  --   f(function(args)
+  --     local super = args[1][1] or ""
+  --     if super == "" then
+  --       return "        pass"
+  --     else
+  --       return "        super().__init__()"
+  --     end
+  --   end, {2, 1}),
+  --   t({"", ""}),
+  --   i(0),
+  -- }),
+})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2
