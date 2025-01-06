@@ -233,6 +233,12 @@ require('lazy').setup({
     config = function()
       require("nvim-surround").setup({
         -- Configuration here, or leave empty to use defaults
+        keymaps = {
+          normal = "s",
+          normal_cur = "ss",
+          normal_line = "S",
+          normal_cur_line = "SS",
+        }
       })
     end
   },
@@ -292,13 +298,12 @@ require('lazy').setup({
     },
     config = function()
       require("nvim-tree").setup {}
-      vim.keymap.set({'n'}, '<C-e>', ':NvimTreeToggle<Enter>')
-      vim.keymap.set({'n'}, '<Leader>e', ':NvimTreeFocus<Enter>')
-
-      vim.keymap.set({'n'}, '<leader>ee', '<cmd>NvimTreeToggle<CR>')
-      vim.keymap.set({'n'}, '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>')
-      vim.keymap.set({'n'}, '<leader>ec', '<cmd>NvimTreeCollapse<CR>')
-      vim.keymap.set({'n'}, '<leader>er', '<cmd>NvimTreeRefresh<CR>')
+      vim.keymap.set('n', '<C-e>', ':NvimTreeToggle<CR>', { silent = true })
+      vim.keymap.set('n', '<Leader>e', ':NvimTreeFocus<CR>', { silent = true })
+      vim.keymap.set('n', '<leader>ee', '<cmd>NvimTreeToggle<CR>', { silent = true })
+      vim.keymap.set('n', '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>', { silent = true })
+      vim.keymap.set('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', { silent = true })
+      vim.keymap.set('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', { silent = true })
     end,
   },
 
@@ -615,6 +620,18 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
+    extensions = {
+      fzf = {}
+    },
+  },
+  pickers = {
+    --theme = 'ivy',
+    find_files = {
+      theme = 'ivy'
+    },
+    git_files = {
+      theme = 'ivy'
+    },
   },
 }
 
@@ -633,13 +650,19 @@ vim.keymap.set('n', '<leader>/', function()
 end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind [F]iles' })
+vim.keymap.set('n', '<leader>fn', require('telescope.builtin').find_files, { desc = '[F]i[n]d Files' })
+vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = '[F]ind [H]elp' })
+vim.keymap.set('n', '<leader>fw', require('telescope.builtin').grep_string, { desc = '[F]ind current [W]ord' })
+vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = '[F]ind by [G]rep' })
+vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { desc = '[F]ind [D]iagnostics' })
+vim.keymap.set('n', '<leader>fr', require('telescope.builtin').resume, { desc = '[F]ind [R]esume' })
 
+vim.keymap.set('n', '<leader>en', function()
+  require('telescope.builtin').find_files {
+    cwd = vim.fn.stdpath("config")
+  }
+end, { desc = '[en] edit nvim config' })
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
@@ -765,10 +788,10 @@ require('which-key').register {
   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
   ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>j'] = { name = 'More git', _ = 'which_key_ignore' },
+  ['<leader>s'] = { name = '[s]urround', _ = 'which_key_ignore' },
   --['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+  ['<leader>j'] = { name = '[J]ump', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
 }
 
@@ -958,7 +981,7 @@ cmp.setup {
 local s  = luasnip.snippet
 local t  = luasnip.text_node
 local i  = luasnip.insert_node
-local rep   = require("luasnip.extras").rep  
+local rep   = require("luasnip.extras").rep
 
 luasnip.add_snippets("python", {
   -- Aliases: imp <shortcut>
@@ -981,43 +1004,10 @@ luasnip.add_snippets("python", {
     t({"", "    "}), rep(1), t("()"),
   }),
 
-  -- mkclass: changing "SUPER" at <Tab> spot will update the second instance.
-  -- s("mkclass", {
-  --   t("class "), i(1, "NAME"), t("("), i(2, "SUPER"), t({"):", "    def __init__(self):", "        if "}),
-  --   rep(2), t({": super().__init__()"}),
-  -- }),
-  --
-  -- V2
-  ---- mkclass with optional super:
-  -- s("mkclass", {
-  --   t("class "),
-  --   i(1, "MyClass"),  -- Class name
-  --   -- Dynamic node for the SUPER placeholder (user can type or leave empty)
-  --   d(2, function()
-  --     return ls.snippet(nil, { i(1, "") })
-  --   end),
-  --   -- Conditionally add parentheses if user typed a superclass
-  --   f(function(args)
-  --     local super = args[1][1] or ""
-  --     if super == "" then
-  --       return ""
-  --     else
-  --       return "(" .. super .. ")"
-  --     end
-  --   end, {2, 1}),
-  --   t({":", "    def __init__(self):"}),
-  --   -- Conditionally call super().__init__() only if SUPER not empty
-  --   f(function(args)
-  --     local super = args[1][1] or ""
-  --     if super == "" then
-  --       return "        pass"
-  --     else
-  --       return "        super().__init__()"
-  --     end
-  --   end, {2, 1}),
-  --   t({"", ""}),
-  --   i(0),
-  -- }),
+  s("mkclass", {
+    t("class "), i(1, "NAME"), t("("), i(2, "SUPER"), t({"):",
+      "    def __init__(self):", "         super().__init__()", ""}),
+  }),
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
