@@ -326,37 +326,20 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>', { silent = true })
       vim.keymap.set('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', { silent = true })
       vim.keymap.set('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', { silent = true })
-      vim.keymap.set('n', '<C-t>', ':tabedit<CR>', { desc = "new [T]ab" })
+      -- open new tab / close tab with Ctrl+t / +q
+      vim.keymap.set('n', '<C-t>', ':tabedit<CR>', { desc = "new [T]ab", silent = true })
+      vim.keymap.set('n', '<C-q>', ':tabclose<CR>', { desc = "[q]uit tab", silent = true })
     end,
   },
-
-
-  -- vim.keymap.set('n', '<C-t>', '<cmd>vim.cmd("tabnew")<CR>', { desc = "new [T]ab" })
-  -- vim.keymap.set('n', '<C-t>', ':tabedit<CR>', { desc = "new [T]ab" })
-  -- vim.keymap.set('n', '<C-t>', '<cmd>tabedit<CR>', { desc = "new [T]ab" })
-  --<C-u>
-
-  -- global new-tab <leader>+t bind
-  -- vim.keymap.set('n', '<leader>t', function()
-    -- If the current buffer is an NvimTree buffer,
-    -- -- open the file under cursor in a new tab:
-    -- if vim.bo.filetype == "NvimTree" then
-      -- local api = require("nvim-tree.api")
-      -- api.node.open.tab()
-    -- else
-      -- Otherwise, do your "normal" open new tab behavior.
-      -- This example opens a new blank tab:
-      -- vim.cmd("tabedit")
-    -- end
-  -- end, { noremap = true, silent = true, desc = "Open in new tab (tree-aware)" })
 
   {'ggandor/leap.nvim',
     config = function()
       require('leap').setup({
     })
-    vim.keymap.set({'n', 'x', 'o'}, 'y',  '<Plug>(leap-forward)')
-    vim.keymap.set({'n', 'x', 'o'}, 'Y',  '<Plug>(leap-backward)')
-    vim.keymap.set({'n', 'x', 'o'}, 'gy', '<Plug>(leap-from-window)')
+    vim.keymap.set({'n', 'x', 'o'}, 'j',  '<Plug>(leap-forward)', { remap = true ,  desc = '[j]ump forward' } )
+    vim.keymap.set({'n', 'x', 'o'}, 'J',  '<Plug>(leap-backward)', { remap = true ,  desc = '[J]ump backward' } )
+    vim.keymap.set({'n', 'x', 'o'}, 'gj', '<Plug>(leap-from-window)', { remap = true ,  desc = 'window [J]ump?' } )
+      -- removed j/J remap at end of config for this
     end
   },
 
@@ -413,8 +396,11 @@ require('lazy').setup({
       config = function()
           require("null-ls").setup({
               sources = {
-                  require("null-ls").builtins.formatting.black.with({ extra_args = { "--fast", "--line-length", "79"} }),
+                  -- require("null-ls").builtins.formatting.black.with({ extra_args = { "--fast", "--line-length", "79"} }),
                   require("null-ls").builtins.formatting.isort,
+                  require("null-ls").builtins.formatting.autopep8.with({
+                      extra_args = { "--max-line-length", "79" },
+                  }),
               },
               on_attach = function(client, bufnr)
                   if client.supports_method("textDocument/formatting") then
@@ -538,18 +524,18 @@ vim.go.background = "dark"
 
 -- [[ Workman Remap Stefan ]]
 
-vim.keymap.set({'n', 'v'}, 'y', 'z', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'y', 'z', { noremap = true }) -- used by leap instead
 vim.keymap.set({'n', 'v'}, 'z', 'y', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'yy', 'zz', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'zz', 'yy', { noremap = true })
-vim.keymap.set({'n', 'v'}, 'j', 't', { noremap = true, desc = '[J]ump to'})
+-- vim.keymap.set({'n', 'v'}, 'j', 't', { noremap = true }) --, desc = '[J]ump to'})
 vim.keymap.set({'n', 'v'}, 't', 'j', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'h', 'k', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'k', 'h', { noremap = true })
 
-vim.keymap.set({'n', 'v'}, 'Y', 'Z', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'Y', 'Z', { noremap = true }) -- used by leap instead
 vim.keymap.set({'n', 'v'}, 'Z', 'Y', { noremap = true })
-vim.keymap.set({'n', 'v'}, 'J', 'T', { noremap = true })
+-- vim.keymap.set({'n', 'v'}, 'J', 'T', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'T', 'J', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'H', 'K', { noremap = true })
 vim.keymap.set({'n', 'v'}, 'K', 'H', { noremap = true })
