@@ -297,10 +297,28 @@ require('lazy').setup({
       "nvim-tree/nvim-web-devicons",
     },
     config = function()
-      require("nvim-tree").setup {}
-      vim.keymap.set('n', '<C-e>', ':NvimTreeToggle<CR>', { silent = true })
-      vim.keymap.set('n', '<Leader>e', ':NvimTreeFocus<CR>', { silent = true })
+      local function on_attach(bufnr)
+        local api = require('nvim-tree.api')
+        api.config.mappings.default_on_attach(bufnr)
+        vim.keymap.del('n', '<C-e>', { buffer = bufnr })
+      end
+
+      require("nvim-tree").setup {
+        on_attach = on_attach,
+      }
+
+
+      vim.keymap.set('n', '<C-e>', function()
+        if vim.bo.filetype == 'NvimTree' then
+          vim.cmd('wincmd p')
+          vim.cmd('NvimTreeClose')
+        else
+          vim.cmd('NvimTreeToggle')
+        end
+      end, { silent = true })
+      -- vim.keymap.set('n', '<Leader>e', ':NvimTreeFocus<CR>', { silent = true })
       vim.keymap.set('n', '<leader>ee', '<cmd>NvimTreeToggle<CR>', { silent = true })
+      vim.keymap.set('n', '<leader>ex', '<cmd>NvimTreeClose<CR>', { silent = true })
       vim.keymap.set('n', '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>', { silent = true })
       vim.keymap.set('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', { silent = true })
       vim.keymap.set('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', { silent = true })
