@@ -7,6 +7,11 @@
 ]]--
 
 
+-- TODO
+-- remove <leader>t  from trouble.nvim to something
+-- change leader>t to CTRL+t for newtab
+
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 vim.o.guifont = "Source Code Pro Nerd Font:h14"
@@ -111,7 +116,7 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
+        -- vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
 
         -- don't override the built-in and fugitive keymaps
         local gs = package.loaded.gitsigns
@@ -307,7 +312,7 @@ require('lazy').setup({
         on_attach = on_attach,
       }
 
-
+      -- vim.keymap.set('n', '<Leader>e', ':NvimTreeFocus<CR>', { silent = true })
       vim.keymap.set('n', '<C-e>', function()
         if vim.bo.filetype == 'NvimTree' then
           vim.cmd('wincmd p')
@@ -316,18 +321,42 @@ require('lazy').setup({
           vim.cmd('NvimTreeToggle')
         end
       end, { silent = true })
-      -- vim.keymap.set('n', '<Leader>e', ':NvimTreeFocus<CR>', { silent = true })
       vim.keymap.set('n', '<leader>ee', '<cmd>NvimTreeToggle<CR>', { silent = true })
       vim.keymap.set('n', '<leader>ex', '<cmd>NvimTreeClose<CR>', { silent = true })
       vim.keymap.set('n', '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>', { silent = true })
       vim.keymap.set('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', { silent = true })
       vim.keymap.set('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', { silent = true })
+      vim.keymap.set('n', '<C-t>', ':tabedit<CR>', { desc = "new [T]ab" })
     end,
   },
 
+
+  -- vim.keymap.set('n', '<C-t>', '<cmd>vim.cmd("tabnew")<CR>', { desc = "new [T]ab" })
+  -- vim.keymap.set('n', '<C-t>', ':tabedit<CR>', { desc = "new [T]ab" })
+  -- vim.keymap.set('n', '<C-t>', '<cmd>tabedit<CR>', { desc = "new [T]ab" })
+  --<C-u>
+
+  -- global new-tab <leader>+t bind
+  -- vim.keymap.set('n', '<leader>t', function()
+    -- If the current buffer is an NvimTree buffer,
+    -- -- open the file under cursor in a new tab:
+    -- if vim.bo.filetype == "NvimTree" then
+      -- local api = require("nvim-tree.api")
+      -- api.node.open.tab()
+    -- else
+      -- Otherwise, do your "normal" open new tab behavior.
+      -- This example opens a new blank tab:
+      -- vim.cmd("tabedit")
+    -- end
+  -- end, { noremap = true, silent = true, desc = "Open in new tab (tree-aware)" })
+
   {'ggandor/leap.nvim',
     config = function()
-      require('leap').add_default_mappings()
+      require('leap').setup({
+    })
+    vim.keymap.set({'n', 'x', 'o'}, 'y',  '<Plug>(leap-forward)')
+    vim.keymap.set({'n', 'x', 'o'}, 'Y',  '<Plug>(leap-backward)')
+    vim.keymap.set({'n', 'x', 'o'}, 'gy', '<Plug>(leap-from-window)')
     end
   },
 
