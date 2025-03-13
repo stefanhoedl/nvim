@@ -321,14 +321,14 @@ require('lazy').setup({
           vim.cmd('NvimTreeToggle')
         end
       end, { silent = true })
-      vim.keymap.set('n', '<leader>ee', '<cmd>NvimTreeToggle<CR>', { silent = true })
-      vim.keymap.set('n', '<leader>ex', '<cmd>NvimTreeClose<CR>', { silent = true })
-      vim.keymap.set('n', '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>', { silent = true })
-      vim.keymap.set('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', { silent = true })
-      vim.keymap.set('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', { silent = true })
+      vim.keymap.set('n', '<leader>ee', '<cmd>NvimTreeToggle<CR>', { desc = "tre[e] toggl[e]", silent = true })
+      vim.keymap.set('n', '<leader>ex', '<cmd>NvimTreeClose<CR>', { desc = "tre[e] e[x]it", silent = true })
+      vim.keymap.set('n', '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>', { desc = "tre[E] [f]ind file", silent = true })
+      vim.keymap.set('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', { desc = "tre[E] [c]ollapse", silent = true })
+      vim.keymap.set('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', { desc = "tre[E] refr", silent = true })
       -- open new tab / close tab with Ctrl+t / +q
       vim.keymap.set('n', '<C-t>', ':tabedit<CR>', { desc = "new [T]ab", silent = true })
-      vim.keymap.set('n', '<C-q>', ':tabclose<CR>', { desc = "[q]uit tab", silent = true })
+      vim.keymap.set('n', '<C-q>', ':tabclose<CR>', { desc = "[Q]uit tab", silent = true })
     end,
   },
 
@@ -380,11 +380,11 @@ require('lazy').setup({
       }
 
       --vim.keymap.set({'n', 't'}, '<leader>mm', '<cmd>Tmux:new()<CR>')
-      vim.keymap.set({'n', 't'}, '<leader>k', '<cmd>NavigatorLeft<CR>')
-      vim.keymap.set({'n', 't'}, '<leader>l', '<cmd>NavigatorRight<CR>')
-      vim.keymap.set({'n', 't'}, '<leader>h', '<cmd>NavigatorUp<CR>')
-      vim.keymap.set({'n', 't'}, '<leader>t', '<cmd>NavigatorDown<CR>')
-      vim.keymap.set({'n', 't'}, '<leader>p', '<cmd>NavigatorPrevious<CR>')
+      vim.keymap.set({'n', 't'}, '<leader>k', '<cmd>NavigatorLeft<CR>', { desc = "Left [k]", silent = true })
+      vim.keymap.set({'n', 't'}, '<leader>l', '<cmd>NavigatorRight<CR>', { desc = "Right [l]", silent = true })
+      vim.keymap.set({'n', 't'}, '<leader>h', '<cmd>NavigatorUp<CR>', { desc = "Up [h]", silent = true })
+      vim.keymap.set({'n', 't'}, '<leader>t', '<cmd>NavigatorDown<CR>', { desc = "Down [t]", silent = true })
+      vim.keymap.set({'n', 't'}, '<leader>p', '<cmd>NavigatorPrevious<CR>', { desc = "Previous [p]", silent = true })
       -- vim.keymap.set({'n', 't'}, '<A-h>', require('Navigator').left)
     end,
   },
@@ -543,25 +543,25 @@ vim.keymap.set({'n', 'v'}, 'K', 'H', { noremap = true })
 -- map tab switches:
 --vim.keymap.set({'n'}, "<C-w>h", 
 --vim.keymap.set({'n'}, "<leader>w", 
-vim.keymap.set({'n'}, '<leader>1', '1gt')
-vim.keymap.set({'n'}, '<leader>2', '2gt')
-vim.keymap.set({'n'}, '<leader>3', '3gt')
-vim.keymap.set({'n'}, '<leader>4', '4gt')
-vim.keymap.set({'n'}, '<leader>5', '5gt')
-vim.keymap.set({'n'}, '<leader>6', '6gt')
-vim.keymap.set({'n'}, '<leader>7', '7gt')
-vim.keymap.set({'n'}, '<leader>8', '8gt')
-vim.keymap.set({'n'}, '<leader>9', '9gt')
+vim.keymap.set({'n'}, '<leader>1', '1gt', { desc = "go tab 1" })
+vim.keymap.set({'n'}, '<leader>2', '2gt', { desc = "go tab 2" })
+vim.keymap.set({'n'}, '<leader>3', '3gt', { desc = "go tab 3" })
+vim.keymap.set({'n'}, '<leader>4', '4gt', { desc = "go tab 4" })
+vim.keymap.set({'n'}, '<leader>5', '5gt', { desc = "go tab 5" })
+vim.keymap.set({'n'}, '<leader>6', '6gt', { desc = "go tab 6" })
+vim.keymap.set({'n'}, '<leader>7', '7gt', { desc = "go tab 7" })
+vim.keymap.set({'n'}, '<leader>8', '8gt', { desc = "go tab 8" })
+vim.keymap.set({'n'}, '<leader>9', '9gt', { desc = "go tab 9" })
 vim.keymap.set({'n'}, '<leader>0', ':tablast<CR>')
 --remap <leader>0 :tablast<cr>
 
 -- [[ window nav remap ]]
 -- https://neovim.io/doc/user/quickref.html#Q_wi
-vim.keymap.set({'n'}, '<Leader>h', '<C-w>k')
-vim.keymap.set({'n'}, '<Leader>t', '<C-w>j')
-vim.keymap.set({'n'}, '<Leader>k', '<C-w>h')
-vim.keymap.set({'n'}, '<Leader>l', '<C-w>l')
-vim.keymap.set({'n'}, '<Leader>b', '<C-w>b')
+vim.keymap.set({'n'}, '<Leader>h', '<C-w>k', { desc = "move window [k]" })
+vim.keymap.set({'n'}, '<Leader>t', '<C-w>j', { desc = "move window [j]" })
+vim.keymap.set({'n'}, '<Leader>k', '<C-w>h', { desc = "move window [h]" })
+vim.keymap.set({'n'}, '<Leader>l', '<C-w>l', { desc = "move window [l]" })
+vim.keymap.set({'n'}, '<Leader>b', '<C-w>b', { desc = "move window [b]" })
 vim.keymap.set({'n'}, '<Leader>j', '<C-w>t', {desc = '[J]ump to'})
 
 vim.keymap.set({'n'}, '<C-w>h', '<C-w>k')
@@ -826,6 +826,18 @@ require('which-key').register {
   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
   ['<leader>j'] = { name = '[J]ump', _ = 'which_key_ignore' },
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+  -- surround
+  ['<leader>s'] = { name = '[S]urround', _ = 'which_key_ignore' },
+  ['<leader>ss'] = { name = '[S]urround [normal_cur]', _ = 'which_key_ignore' },
+  ['<leader>S'] = { name = '[S]urround [normal_line]', _ = 'which_key_ignore' },
+  ['<leader>SS'] = { name = '[S]urround [normal_cur_line]', _ = 'which_key_ignore' },
+  -- find / fuzzyfind
+  ['<leader>f'] = { name = '[F]ind', _ = 'which_key_ignore' },
+  ['<leader>ff'] = { name = '[F]ind [F]ile', _ = 'which_key_ignore' },
+  -- go def
+  ['<leader>gd'] = { name = '[G]o [D]efinition', _ = 'which_key_ignore' },
+  -- git / lazygit
+  -- ['<leader>'] = { name = '[G]it [D]efinition', _ = 'which_key_ignore' },
 }
 
 
