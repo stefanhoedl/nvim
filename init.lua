@@ -445,6 +445,13 @@ require('lazy').setup({
     opts = {},
   },
 
+  {
+    "echasnovski/mini.nvim",
+    config = function()
+      require('mini.icons').setup({})
+    end,
+  },
+
   { -- Commenting
     'numToStr/Comment.nvim',
     opts = {
@@ -590,32 +597,42 @@ require('lazy').setup({
     end,
   },
   
-  -- null-ls for formatting, can be replaced by conform.nvim but keeping for reference
-  -- {
-  --     'jose-elias-alvarez/null-ls.nvim',
-  --     dependencies = { 'nvim-lua/plenary.nvim' },
-  --     config = function()
-  --         require("null-ls").setup({
-  --             sources = {
-  --                 require("null-ls").builtins.formatting.isort,
-  --                 require("null-ls").builtins.formatting.autopep8.with({
-  --                     extra_args = { "--max-line-length", "79" },
-  --                 }),
-  --             },
-  --             on_attach = function(client, bufnr)
-  --                 if client.supports_method("textDocument/formatting") then
-  --                     vim.api.nvim_create_autocmd("BufWritePre", {
-  --                         group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true }),
-  --                         buffer = bufnr,
-  --                         callback = function()
-  --                             vim.lsp.buf.format({ async = true, timeout_ms = 2000 })
-  --                         end,
-  --                     })
-  --                 end
-  --             end,
-  --         })
-  --     end,
-  -- },
+-- Add the conform.nvim plugin
+{
+  "stevearc/conform.nvim",
+  -- Load conform.nvim on specific events. "BufWritePre" is essential for format-on-save.
+  event = { "BufWritePre", "BufReadPost" },
+  cmd = { "ConformInfo" }, -- Command to view conform's status
+  -- Optional: Define a keybinding for manual formatting
+  keys = {
+    {
+      "<leader>f", -- Map <leader>f to format the current buffer
+      function()
+        -- You can customize this. lsp_fallback=true means if conform doesn't have a formatter,
+        -- it will try to use the LSP server's formatter.
+        require("conform").format({ async = true, lsp_fallback = true })
+      end,
+      mode = { "n", "v" }, -- Normal and Visual mode
+      desc = "Format buffer/selection",
+    },
+  },
+  config = function()
+    require("conform").setup({
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_fallback = true,
+      },
+      formatters_by_ft = {
+        lua = { "stylua" },
+        python = { "prettierd", "isort" }, -- You can specify multiple, conform tries them in order
+        json = { { "prettierd", "prettier" } },
+        yaml = { { "prettierd", "prettier" } },
+        html = { { "prettierd", "prettier" } },
+        markdown = { { "prettierd", "prettier" } },
+      },
+    })
+  end,
+},
 
 }, {
   ui = {
