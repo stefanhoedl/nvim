@@ -196,18 +196,18 @@ require('lazy').setup({
     'folke/which-key.nvim',
     event = 'VimEnter',
     config = function()
-        require('which-key').setup()
-        require('which-key').register {
-            ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-            ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-            ['<leader>f'] = { name = '[F]ind', _ = 'which_key_ignore' },
-            ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-            ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-            ['<leader>s'] = { name = '[S]urround', _ = 'which_key_ignore' },
-            ['<leader>t'] = { name = '[T]oggle/[T]rouble', _ = 'which_key_ignore' },
-            ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-            ['<leader>e'] = { name = '[E]xplorer/[E]dit', _ = 'which_key_ignore'},
-        }
+      require('which-key').setup()
+      require('which-key').register {
+        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+        ['<leader>f'] = { name = '[F]ind', _ = 'which_key_ignore' },
+        ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
+        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+        ['<leader>s'] = { name = '[S]urround', _ = 'which_key_ignore' },
+        ['<leader>t'] = { name = '[T]oggle/[T]rouble', _ = 'which_key_ignore' },
+        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+        ['<leader>e'] = { name = '[E]xplorer/[E]dit', _ = 'which_key_ignore' },
+      }
     end
   },
 
@@ -234,8 +234,8 @@ require('lazy').setup({
           },
         },
         pickers = {
-            find_files = { theme = 'ivy' },
-            git_files = { theme = 'ivy' },
+          find_files = { theme = 'ivy' },
+          git_files = { theme = 'ivy' },
         },
         extensions = { fzf = {} },
       }
@@ -261,7 +261,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
       vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[F]ind [R]esume' })
       vim.keymap.set('n', '<leader>en', function()
-          builtin.find_files { cwd = vim.fn.stdpath("config") }
+        builtin.find_files { cwd = vim.fn.stdpath("config") }
       end, { desc = '[E]dit [N]eovim config' })
     end,
   },
@@ -336,7 +336,6 @@ require('lazy').setup({
           end,
         }
       }
-
     end,
   },
 
@@ -348,82 +347,82 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
       'rafamadriz/friendly-snippets',
     },
-    config = function ()
-        local cmp = require 'cmp'
-        local luasnip = require 'luasnip'
-        require('luasnip.loaders.from_vscode').lazy_load()
-        luasnip.config.setup {}
+    config = function()
+      local cmp = require 'cmp'
+      local luasnip = require 'luasnip'
+      require('luasnip.loaders.from_vscode').lazy_load()
+      luasnip.config.setup {}
 
-        cmp.setup {
-            snippet = {
-                expand = function(args)
-                    luasnip.lsp_expand(args.body)
-                end,
-            },
-            mapping = cmp.mapping.preset.insert {
-                ['<C-n>'] = cmp.mapping.select_next_item(),
-                ['<C-p>'] = cmp.mapping.select_prev_item(),
-                ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-                ['<C-f>'] = cmp.mapping.scroll_docs(4),
-                ['<C-Space>'] = cmp.mapping.complete {},
-                ['<CR>'] = cmp.mapping.confirm {
-                    behavior = cmp.ConfirmBehavior.Replace,
-                    select = true,
-                },
-                ['<Tab>'] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                        cmp.select_next_item()
-                    elseif luasnip.expand_or_locally_jumpable() then
-                        luasnip.expand_or_jump()
-                    else
-                        fallback()
-                    end
-                end, { 'i', 's' }),
-                ['<S-Tab>'] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                        cmp.select_prev_item()
-                    elseif luasnip.locally_jumpable(-1) then
-                        luasnip.jump(-1)
-                    else
-                        fallback()
-                    end
-                end, { 'i', 's' }),
-            },
-            sources = {
-                { name = 'nvim_lsp' },
-                { name = 'luasnip' },
-            },
-        }
+      cmp.setup {
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert {
+          ['<C-n>'] = cmp.mapping.select_next_item(),
+          ['<C-p>'] = cmp.mapping.select_prev_item(),
+          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete {},
+          ['<CR>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+          },
+          ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_locally_jumpable() then
+              luasnip.expand_or_jump()
+            else
+              fallback()
+            end
+          end, { 'i', 's' }),
+          ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.locally_jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { 'i', 's' }),
+        },
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+        },
+      }
 
-        -- Custom Python Snippets
-        local s  = luasnip.snippet
-        local t  = luasnip.text_node
-        local i  = luasnip.insert_node
-        local rep   = require("luasnip.extras").rep
+      -- Custom Python Snippets
+      local s   = luasnip.snippet
+      local t   = luasnip.text_node
+      local i   = luasnip.insert_node
+      local rep = require("luasnip.extras").rep
 
-        luasnip.add_snippets("python", {
-          s("impnp",  { t({"import numpy as np", ""}) }),
-          s("imppd",  { t({"import pandas as pd", ""}) }),
-          s("impplt", { t({"import matplotlib.pyplot as plt", ""}) }),
-          s("impwb",  { t({"import wandb", ""}) }),
-          s("impgeom", { t({"import torch_geometric", ""}) }),
-          s("impto", {
-            t({"import torch", "import torch.nn.functional as F",
-              "import torch.nn as nn", "import pytorch_lightning as pl", ""})
-          }),
-          s("impcfg", {
-            t({"from omegaconf import OmegaConf", "import dvc", ""})
-          }),
-          s("mkmain", {
-            t("def "), i(1, "FUNC"), t("():"),
-            t({"", "    pass", "", "if __name__ == \"__main__\":"}),
-            t({"", "    "}), rep(1), t("()"),
-          }),
-          s("mkclass", {
-            t("class "), i(1, "NAME"), t("("), i(2, "SUPER"), t({"):",
-              "    def __init__(self):", "         super().__init__()", ""}),
-          }),
-        })
+      luasnip.add_snippets("python", {
+        s("impnp", { t({ "import numpy as np", "" }) }),
+        s("imppd", { t({ "import pandas as pd", "" }) }),
+        s("impplt", { t({ "import matplotlib.pyplot as plt", "" }) }),
+        s("impwb", { t({ "import wandb", "" }) }),
+        s("impgeom", { t({ "import torch_geometric", "" }) }),
+        s("impto", {
+          t({ "import torch", "import torch.nn.functional as F",
+            "import torch.nn as nn", "import pytorch_lightning as pl", "" })
+        }),
+        s("impcfg", {
+          t({ "from omegaconf import OmegaConf", "import dvc", "" })
+        }),
+        s("mkmain", {
+          t("def "), i(1, "FUNC"), t("():"),
+          t({ "", "    pass", "", "if __name__ == \"__main__\":" }),
+          t({ "", "    " }), rep(1), t("()"),
+        }),
+        s("mkclass", {
+          t("class "), i(1, "NAME"), t("("), i(2, "SUPER"), t({ "):",
+          "    def __init__(self):", "         super().__init__()", "" }),
+        }),
+      })
     end,
   },
 
@@ -474,43 +473,43 @@ require('lazy').setup({
     dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
     build = ':TSUpdate',
     config = function()
-        require('nvim-treesitter.configs').setup {
-            ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' },
-            auto_install = false,
-            highlight = { enable = true },
-            indent = { enable = true },
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = '<c-space>',
-                    node_incremental = '<c-space>',
-                    scope_incremental = '<c-s>',
-                    node_decremental = '<M-space>',
-                },
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' },
+        auto_install = false,
+        highlight = { enable = true },
+        indent = { enable = true },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = '<c-space>',
+            node_incremental = '<c-space>',
+            scope_incremental = '<c-s>',
+            node_decremental = '<M-space>',
+          },
+        },
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ['aa'] = '@parameter.outer',
+              ['ia'] = '@parameter.inner',
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['ac'] = '@class.outer',
+              ['ic'] = '@class.inner',
             },
-            textobjects = {
-                select = {
-                    enable = true,
-                    lookahead = true,
-                    keymaps = {
-                        ['aa'] = '@parameter.outer',
-                        ['ia'] = '@parameter.inner',
-                        ['af'] = '@function.outer',
-                        ['if'] = '@function.inner',
-                        ['ac'] = '@class.outer',
-                        ['ic'] = '@class.inner',
-                    },
-                },
-                move = {
-                    enable = true,
-                    set_jumps = true,
-                    goto_next_start = { [']m'] = '@function.outer', [']]'] = '@class.outer' },
-                    goto_next_end = { [']M'] = '@function.outer', [']['] = '@class.outer' },
-                    goto_previous_start = { ['[m'] = '@function.outer', ['[['] = '@class.outer' },
-                    goto_previous_end = { ['[M'] = '@function.outer', ['[]'] = '@class.outer' },
-                },
-            },
-        }
+          },
+          move = {
+            enable = true,
+            set_jumps = true,
+            goto_next_start = { [']m'] = '@function.outer', [']]'] = '@class.outer' },
+            goto_next_end = { [']M'] = '@function.outer', [']['] = '@class.outer' },
+            goto_previous_start = { ['[m'] = '@function.outer', ['[['] = '@class.outer' },
+            goto_previous_end = { ['[M'] = '@function.outer', ['[]'] = '@class.outer' },
+          },
+        },
+      }
     end,
   },
 
@@ -563,9 +562,9 @@ require('lazy').setup({
     'ggandor/leap.nvim',
     config = function()
       require('leap').setup({})
-      vim.keymap.set({'n', 'x', 'o'}, 'j',  '<Plug>(leap-forward)', { remap = true ,  desc = '[J]ump forward' } )
-      vim.keymap.set({'n', 'x', 'o'}, 'J',  '<Plug>(leap-backward)', { remap = true ,  desc = '[J]ump backward' } )
-      vim.keymap.set({'n', 'x', 'o'}, 'gj', '<Plug>(leap-from-window)', { remap = true ,  desc = 'window [J]ump?' } )
+      vim.keymap.set({ 'n', 'x', 'o' }, 'j', '<Plug>(leap-forward)', { remap = true, desc = '[J]ump forward' })
+      vim.keymap.set({ 'n', 'x', 'o' }, 'J', '<Plug>(leap-backward)', { remap = true, desc = '[J]ump backward' })
+      vim.keymap.set({ 'n', 'x', 'o' }, 'gj', '<Plug>(leap-from-window)', { remap = true, desc = 'window [J]ump?' })
     end
   },
 
@@ -574,13 +573,18 @@ require('lazy').setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {},
     config = function(_, opts)
-        require("trouble").setup(opts)
-        vim.keymap.set("n", "<leader>tt", function() require("trouble").toggle() end, { desc = '[T]rouble toggle' })
-        vim.keymap.set("n", "<leader>tw", function() require("trouble").toggle("workspace_diagnostics") end, { desc = '[T]rouble [W]orkspace' })
-        vim.keymap.set("n", "<leader>td", function() require("trouble").toggle("document_diagnostics") end, { desc = '[T]rouble [D]ocument' })
-        vim.keymap.set("n", "<leader>tq", function() require("trouble").toggle("quickfix") end, { desc = '[T]rouble [Q]uickfix' })
-        vim.keymap.set("n", "<leader>tl", function() require("trouble").toggle("loclist") end, { desc = '[T]rouble [L]oclist' })
-        vim.keymap.set("n", "<leader>tr", function() require("trouble").toggle("lsp_references") end, { desc = '[T]rouble [R]eferences' })
+      require("trouble").setup(opts)
+      vim.keymap.set("n", "<leader>tt", function() require("trouble").toggle() end, { desc = '[T]rouble toggle' })
+      vim.keymap.set("n", "<leader>tw", function() require("trouble").toggle("workspace_diagnostics") end,
+        { desc = '[T]rouble [W]orkspace' })
+      vim.keymap.set("n", "<leader>td", function() require("trouble").toggle("document_diagnostics") end,
+        { desc = '[T]rouble [D]ocument' })
+      vim.keymap.set("n", "<leader>tq", function() require("trouble").toggle("quickfix") end,
+        { desc = '[T]rouble [Q]uickfix' })
+      vim.keymap.set("n", "<leader>tl", function() require("trouble").toggle("loclist") end,
+        { desc = '[T]rouble [L]oclist' })
+      vim.keymap.set("n", "<leader>tr", function() require("trouble").toggle("lsp_references") end,
+        { desc = '[T]rouble [R]eferences' })
     end
   },
 
@@ -588,62 +592,93 @@ require('lazy').setup({
     "numToStr/Navigator.nvim",
     config = function()
       require('Navigator').setup()
-      vim.keymap.set({'n', 't'}, '<leader>k', '<cmd>NavigatorLeft<CR>', { desc = "Navigator Left", silent = true })
-      vim.keymap.set({'n', 't'}, '<leader>l', '<cmd>NavigatorRight<CR>', { desc = "Navigator Right", silent = true })
-      vim.keymap.set({'n', 't'}, '<leader>h', '<cmd>NavigatorUp<CR>', { desc = "Navigator Up", silent = true })
+      vim.keymap.set({ 'n', 't' }, '<leader>k', '<cmd>NavigatorLeft<CR>', { desc = "Navigator Left", silent = true })
+      vim.keymap.set({ 'n', 't' }, '<leader>l', '<cmd>NavigatorRight<CR>', { desc = "Navigator Right", silent = true })
+      vim.keymap.set({ 'n', 't' }, '<leader>h', '<cmd>NavigatorUp<CR>', { desc = "Navigator Up", silent = true })
       -- Note: <leader>t is remapped for window navigation, so this is different
-      vim.keymap.set({'n', 't'}, '<leader>tn', '<cmd>NavigatorDown<CR>', { desc = "Navigator Down", silent = true })
-      vim.keymap.set({'n', 't'}, '<leader>p', '<cmd>NavigatorPrevious<CR>', { desc = "Navigator Previous", silent = true })
+      vim.keymap.set({ 'n', 't' }, '<leader>tn', '<cmd>NavigatorDown<CR>', { desc = "Navigator Down", silent = true })
+      vim.keymap.set({ 'n', 't' }, '<leader>p', '<cmd>NavigatorPrevious<CR>',
+        { desc = "Navigator Previous", silent = true })
     end,
   },
-  
--- Add the conform.nvim plugin
-{
-  "stevearc/conform.nvim",
-  -- Load conform.nvim on specific events. "BufWritePre" is essential for format-on-save.
-  event = { "BufWritePre", "BufReadPost" },
-  cmd = { "ConformInfo" }, -- Command to view conform's status
-  -- Optional: Define a keybinding for manual formatting
-  keys = {
-    {
-      "<leader>f", -- Map <leader>f to format the current buffer
-      function()
-        -- You can customize this. lsp_fallback=true means if conform doesn't have a formatter,
-        -- it will try to use the LSP server's formatter.
-        require("conform").format({ async = true, lsp_fallback = true })
-      end,
-      mode = { "n", "v" }, -- Normal and Visual mode
-      desc = "Format buffer/selection",
+
+  {
+    "kdheepak/lazygit.nvim",
+    lazy = true,
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
     },
+    -- optional for floating window border decoration
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    -- setting the keybinding for LazyGit with 'keys' is recommended in
+    -- order to load the plugin when the command is run for the first time
+    keys = {
+      { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
+    }
   },
-  config = function()
-    require("conform").setup({
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
+
+  -- Add the conform.nvim plugin
+  {
+    "stevearc/conform.nvim",
+    -- Load conform.nvim on specific events. "BufWritePre" is essential for format-on-save.
+    event = { "BufWritePre", "BufReadPost" },
+    cmd = { "ConformInfo" }, -- Command to view conform's status
+    -- Optional: Define a keybinding for manual formatting
+    keys = {
+      {
+        "<leader>f", -- Map <leader>f to format the current buffer
+        function()
+          -- You can customize this. lsp_fallback=true means if conform doesn't have a formatter,
+          -- it will try to use the LSP server's formatter.
+          require("conform").format({ async = true, lsp_fallback = true })
+        end,
+        mode = { "n", "v" }, -- Normal and Visual mode
+        desc = "Format buffer/selection",
       },
-      formatters_by_ft = {
-        lua = { "stylua" },
-        python = { "prettierd", "isort" }, -- You can specify multiple, conform tries them in order
-        json = { { "prettierd", "prettier" } },
-        yaml = { { "prettierd", "prettier" } },
-        html = { { "prettierd", "prettier" } },
-        markdown = { { "prettierd", "prettier" } },
-      },
-    })
-  end,
-},
+    },
+    config = function()
+      require("conform").setup({
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_fallback = true,
+        },
+        formatters_by_ft = {
+          lua = { "stylua" },
+          python = { "prettierd", "isort" }, -- You can specify multiple, conform tries them in order
+          json = { { "prettierd", "prettier" } },
+          yaml = { { "prettierd", "prettier" } },
+          html = { { "prettierd", "prettier" } },
+          markdown = { { "prettierd", "prettier" } },
+        },
+      })
+    end,
+  },
 
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘', config = '🛠', event = '📅', ft = '📂', init = '⚙',
-      keys = '🗝', plugin = '🔌', runtime = '💻', require = '🌙',
-      source = '📄', start = '🚀', task = '📌', lazy = '💤 ',
+      cmd = '⌘',
+      config = '🛠',
+      event = '📅',
+      ft = '📂',
+      init = '⚙',
+      keys = '🗝',
+      plugin = '🔌',
+      runtime = '💻',
+      require = '🌙',
+      source = '📄',
+      start = '🚀',
+      task = '📌',
+      lazy = '💤 ',
     },
   },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
-
