@@ -1,7 +1,7 @@
 # https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
 
 # <!-- copy to ~/.config/lazygit/config.yaml -->
-
+notARepository: 'quit'
 keybinding:
   override: true
   gui:
